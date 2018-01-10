@@ -60,7 +60,7 @@ for link in links:
 	lyrics = lyrics.replace('<br>', '\n')
 
 	# write the lyrics in a text file
-	path = 'lyrics/' + song_name + '.txt'
+	path = 'lyrics/megadeth/' + song_name + '.txt'
 	if os.path.exists(path):
 		print('{} has already been downloaded'.format(song_name))
 	else:
