@@ -38,18 +38,16 @@ for link in links[:5]:
 	# get the lyrics for a specific song
 	page = requests.get(full_url, headers=headers)
 	lyrics = page.text.replace('\n', '')
-	# print(lyrics)
 
 	# anchor before which song name is and after which song lyrics are
 	user_agreement = "<!-- Usage of azlyrics.com content by any third-party lyrics provider is prohibited by our licensing agreement. Sorry about that. -->"
 	anchor = lyrics.find(user_agreement)
 
-	# get the proper song name as displayed on the website
+	# get the proper song name
 	target='&quot;'
 	beg = lyrics.find(target)
 	end = lyrics[beg + 1:].find(target)
-	# print(start, end)
-	print(lyrics[beg + len(target) : beg + end + 1])
+	song_name = lyrics[beg + len(target) : beg + end + 1]
 
 	# find where lyrics start in the html file
 	beg = anchor
@@ -61,9 +59,9 @@ for link in links[:5]:
 	lyrics = lyrics.replace('<br>', '\n')
 
 	# write the lyrics in a text file
-	# f = open('lyrics/' + song_name + '.txt', 'w', encoding='utf-8')
-	# f.write(lyrics)
-	# f.close()
+	f = open('lyrics/' + song_name + '.txt', 'w', encoding='utf-8')
+	f.write(lyrics)
+	f.close()
 
-	# print('{} imported'.format(song_name))
-	# time.sleep(90)
+	print('{} imported'.format(song_name))
+	time.sleep(90)
