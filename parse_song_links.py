@@ -17,6 +17,5 @@ for song in songs:
 	link = link.lstrip('h:"../').rstrip('"')
 	links.append(link)
 
-
-
-# print(links)
+for link in links:
+	print(link)
