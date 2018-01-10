@@ -1,7 +1,8 @@
 import os
 import numpy as np
 
-artists = ['megadeth', 'beatles', 'direstraits', 'eminem', 'madonna']
+# artists = ['megadeth', 'beatles', 'direstraits', 'eminem', 'madonna']
+artists = ['eminem', 'beatles']
 lyrics = {}
 
 for artist in artists:
@@ -18,12 +19,14 @@ for artist in artists:
 	X += lyrics[artist]
 	y += [artist]*len(lyrics[artist])
 
+# start predicting
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn import model_selection
 
+# split dataset in training and test sets
 Xtrain, Xtest, ytrain, ytest = model_selection.train_test_split(X, y, test_size = 0.2)
 
 alpha = 0.5
@@ -53,15 +56,17 @@ for text in text_list:
 	print(model.predict([text])[0])
 	print('\n')
 
+
 names = np.array(model.named_steps['vectorizer'].get_feature_names())
 
 coef = model.named_steps['bayes_model'].coef_
 coef = coef.reshape((len(names),))
 
 # Top 20 words for 1st artist
-indices = (-coef).argsort()[:20].tolist()
+indices = (-coef).argsort()[:50].tolist()
 print(names[indices])
+print('\n')
 
 # Top 20 words for 2nd artist
-indices = (coef).argsort()[:20].tolist()
+indices = (coef).argsort()[:50].tolist()
 print(names[indices])
