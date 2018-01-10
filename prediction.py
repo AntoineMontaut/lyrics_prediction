@@ -1,4 +1,5 @@
 import os
+import numpy as np
 
 artists = ['megadeth', 'beatles', 'direstraits', 'eminem', 'madonna']
 lyrics = {}
@@ -45,9 +46,22 @@ print('\n')
 
 # print(model_selection.cross_val_score(model, X, y, cv=10, scoring='accuracy'))
 
-text_list = ["take the 8mile road in detroit", "alone in the dark", 'Mind control penetrating deeper']
+text_list = ["take the 8mile road in detroit", "alone in the dark", 'Mind control penetrating deeper',
+	'When its dog eat dog, you are what you eat', 'This never-ending nightmare']
 for text in text_list:
 	print('Predicted artist for "{}" is:'.format(text))
 	print(model.predict([text])[0])
 	print('\n')
 
+names = np.array(model.named_steps['vectorizer'].get_feature_names())
+
+coef = model.named_steps['bayes_model'].coef_
+coef = coef.reshape((len(names),))
+
+# Top 20 words for 1st artist
+indices = (-coef).argsort()[:20].tolist()
+print(names[indices])
+
+# Top 20 words for 2nd artist
+indices = (coef).argsort()[:20].tolist()
+print(names[indices])
